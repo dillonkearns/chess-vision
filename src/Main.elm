@@ -15,7 +15,22 @@ type alias Model =
 view : Model -> Html Msg
 view model =
     div []
-        []
+        [ boardView ]
+
+
+board : List (List String)
+board =
+    List.repeat 8 (List.repeat 8 "This is a chess square")
+
+
+boardView : Html Msg
+boardView =
+    div [] (List.map rowView board)
+
+
+rowView : List String -> Html Msg
+rowView stringList =
+    div [] [ text "x x x x x x x x" ]
 
 
 init : ( Model, Cmd Msg )
