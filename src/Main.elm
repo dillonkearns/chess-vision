@@ -20,7 +20,7 @@ view model =
 
 board : List (List String)
 board =
-    List.repeat 8 (List.repeat 8 "This is a chess square")
+    List.repeat 8 (List.repeat 8 "x")
 
 
 boardView : Html Msg
@@ -29,8 +29,12 @@ boardView =
 
 
 rowView : List String -> Html Msg
-rowView stringList =
-    div [] [ text "x x x x x x x x" ]
+rowView rowPieces =
+    div [] (List.map squareView rowPieces)
+
+
+squareView piece =
+    text piece
 
 
 init : ( Model, Cmd Msg )
