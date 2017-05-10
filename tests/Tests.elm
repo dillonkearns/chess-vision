@@ -1,9 +1,10 @@
 module Tests exposing (..)
 
-import TennisTests
-import Test exposing (Test)
+import ChessTests
+import SquaresToIterateTests
+import Test exposing (Test, describe)
 
 
 all : Test
 all =
-    TennisTests.all
+    describe "chess" [ ChessTests.all, SquaresToIterateTests.all ]

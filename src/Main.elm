@@ -1,7 +1,8 @@
 module Main exposing (main)
 
-import Tennis
+import Chess
 import Html exposing (..)
+import SquaresToIterate
 
 
 type Msg
@@ -9,7 +10,7 @@ type Msg
 
 
 type alias Model =
-    Tennis.Game
+    Chess.Game
 
 
 view : Model -> Html Msg
@@ -25,21 +26,22 @@ board =
 
 boardView : Html Msg
 boardView =
-    div [] (List.map rowView board)
+    div [] (List.map rowView SquaresToIterate.squaresToIterate)
 
 
-rowView : List String -> Html Msg
+rowView : List ( Int, Int ) -> Html Msg
 rowView rowPieces =
     div [] (List.map squareView rowPieces)
 
 
+squareView : ( Int, Int ) -> Html msg
 squareView piece =
-    text piece
+    text <| toString piece
 
 
 init : ( Model, Cmd Msg )
 init =
-    Tennis.init ! []
+    Chess.init ! []
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
