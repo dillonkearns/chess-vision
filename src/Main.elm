@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Chess
 import Html exposing (..)
+import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import SquaresToIterate
 
@@ -33,13 +34,19 @@ rowView game rowPieces =
 squareView : Chess.Game -> ( Int, Int ) -> Html Msg
 squareView game piece =
     let
+        madeValidMove =
+            Chess.lastMoveValid game
+
         squareValue =
             if (Chess.currentPosition game) == piece then
                 "n"
             else
                 "-"
     in
-        span [ onClick (MakeMove piece) ] [ (text squareValue) ]
+        if madeValidMove then
+            span [ onClick (MakeMove piece) ] [ (text squareValue) ]
+        else
+            span [ style [ ( "color", "red" ) ], onClick (MakeMove piece) ] [ (text squareValue) ]
 
 
 init : ( Model, Cmd Msg )

@@ -54,6 +54,21 @@ currentPosition game =
                 ( -1000, -1000 )
 
 
+lastMoveValid : Game -> Bool
+lastMoveValid game =
+    case game of
+        lastMove :: allOtherMoves ->
+            case lastMove of
+                ValidMove _ ->
+                    True
+
+                _ ->
+                    False
+
+        _ ->
+            False
+
+
 makeMove : Coordinate -> Game -> Game
 makeMove move game =
     if isValidMove (currentPosition game) move then
