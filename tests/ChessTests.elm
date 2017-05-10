@@ -12,4 +12,9 @@ all =
             \() ->
                 Chess.init
                     |> Expect.equal ( 0, 0 )
+        , test "make move moves knight to new square" <|
+            \() ->
+                Chess.init
+                    |> Chess.makeMove ( 7, 7 )
+                    |> Expect.equal ( 7, 7 )
         ]

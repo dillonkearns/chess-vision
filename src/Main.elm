@@ -2,11 +2,12 @@ module Main exposing (main)
 
 import Chess
 import Html exposing (..)
+import Html.Events exposing (onClick)
 import SquaresToIterate
 
 
 type Msg
-    = NoOp
+    = MakeMove ( Int, Int )
 
 
 type alias Model =
@@ -29,12 +30,16 @@ rowView game rowPieces =
     div [] (List.map (squareView game) rowPieces)
 
 
-squareView : Chess.Game -> ( Int, Int ) -> Html msg
+squareView : Chess.Game -> ( Int, Int ) -> Html Msg
 squareView game piece =
-    if game == piece then
-        text "n"
-    else
-        text "x"
+    let
+        squareValue =
+            if game == piece then
+                "n"
+            else
+                "x"
+    in
+        span [ onClick (MakeMove piece) ] [ (text squareValue) ]
 
 
 init : ( Model, Cmd Msg )
@@ -45,8 +50,8 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            model ! []
+        MakeMove toSquare ->
+            (model |> Chess.makeMove toSquare) ! []
 
 
 main : Program Never Model Msg
