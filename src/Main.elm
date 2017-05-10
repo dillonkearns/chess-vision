@@ -34,7 +34,7 @@ squareView : Chess.Game -> ( Int, Int ) -> Html Msg
 squareView game piece =
     let
         squareValue =
-            if game == piece then
+            if (Chess.currentPosition game) == piece then
                 "n"
             else
                 "-"

@@ -1,15 +1,62 @@
 module Chess exposing (..)
 
 
-type alias Game =
+type Move
+    = ValidMove Coordinate
+    | InvalidMove Coordinate
+
+
+type alias Coordinate =
     ( Int, Int )
+
+
+type alias Game =
+    List Move
 
 
 init : Game
 init =
-    ( 0, 0 )
+    [ ValidMove ( 0, 0 ) ]
 
 
-makeMove : ( Int, Int ) -> Game -> Game
+isValidMove : Coordinate -> Coordinate -> Bool
+isValidMove from to =
+    if to == ( 2, 1 ) then
+        True
+    else
+        False
+
+
+isValid : Move -> Bool
+isValid move =
+    case move of
+        ValidMove coordinate ->
+            True
+
+        InvalidMove coordinate ->
+            False
+
+
+currentPosition : Game -> Coordinate
+currentPosition game =
+    let
+        move =
+            game
+                |> List.filter isValid
+                |> List.head
+                |> Maybe.withDefault (ValidMove ( -1000, -1000 ))
+    in
+        case move of
+            ValidMove coordinate ->
+                coordinate
+
+            InvalidMove _ ->
+                ( -1000, -1000 )
+
+
+makeMove : Coordinate -> Game -> Game
 makeMove move game =
-    move
+    if isValidMove (currentPosition game) move then
+        ValidMove move :: game
+    else
+        InvalidMove move :: game
