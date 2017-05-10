@@ -37,7 +37,7 @@ squareView game piece =
             if game == piece then
                 "n"
             else
-                "x"
+                "-"
     in
         span [ onClick (MakeMove piece) ] [ (text squareValue) ]
 
