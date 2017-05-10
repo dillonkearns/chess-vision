@@ -28,7 +28,7 @@ boardView game =
 
 rowView : Chess.Game -> List ( Int, Int ) -> Html Msg
 rowView game rowPieces =
-    div [] (List.map (squareView game) rowPieces)
+    div [ style [ ( "font-size", "60px" ), ( "cursor", "hand" ) ] ] (List.map (squareView game) rowPieces)
 
 
 squareView : Chess.Game -> ( Int, Int ) -> Html Msg
@@ -39,9 +39,9 @@ squareView game piece =
 
         squareValue =
             if (Chess.currentPosition game) == piece then
-                "n"
+                "♞"
             else
-                "-"
+                "◻️"
     in
         if madeValidMove then
             span [ onClick (MakeMove piece) ] [ (text squareValue) ]
