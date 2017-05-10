@@ -16,27 +16,25 @@ type alias Model =
 view : Model -> Html Msg
 view model =
     div []
-        [ boardView ]
+        [ boardView model ]
 
 
-board : List (List String)
-board =
-    List.repeat 8 (List.repeat 8 "x")
+boardView : Chess.Game -> Html Msg
+boardView game =
+    div [] (List.map (rowView game) SquaresToIterate.squaresToIterate)
 
 
-boardView : Html Msg
-boardView =
-    div [] (List.map rowView SquaresToIterate.squaresToIterate)
+rowView : Chess.Game -> List ( Int, Int ) -> Html Msg
+rowView game rowPieces =
+    div [] (List.map (squareView game) rowPieces)
 
 
-rowView : List ( Int, Int ) -> Html Msg
-rowView rowPieces =
-    div [] (List.map squareView rowPieces)
-
-
-squareView : ( Int, Int ) -> Html msg
-squareView piece =
-    text <| toString piece
+squareView : Chess.Game -> ( Int, Int ) -> Html msg
+squareView game piece =
+    if game == piece then
+        text "n"
+    else
+        text "x"
 
 
 init : ( Model, Cmd Msg )
