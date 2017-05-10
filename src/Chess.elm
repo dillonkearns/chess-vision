@@ -39,19 +39,15 @@ isValid move =
 
 currentPosition : Game -> Coordinate
 currentPosition game =
-    let
-        move =
-            game
-                |> List.filter isValid
-                |> List.head
-                |> Maybe.withDefault (ValidMove ( -1000, -1000 ))
-    in
-        case move of
-            ValidMove coordinate ->
-                coordinate
+    case game of
+        (ValidMove coordinate) :: rest ->
+            coordinate
 
-            InvalidMove _ ->
-                ( -1000, -1000 )
+        (InvalidMove coordinate) :: rest ->
+            currentPosition rest
+
+        _ ->
+            Debug.crash "Impossible for list to have no ValidMove's because init seeds it with one"
 
 
 lastMoveValid : Game -> Bool
