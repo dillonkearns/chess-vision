@@ -20,11 +20,12 @@ init =
 
 
 isValidMove : Coordinate -> Coordinate -> Bool
-isValidMove from to =
-    if to == ( 2, 1 ) then
-        True
-    else
-        False
+isValidMove ( fromRank, fromFile ) to =
+    let
+        validToCoordinates =
+            [ ( fromRank + 2, fromFile + 1 ), ( fromRank - 2, fromFile - 1 ), ( fromRank + 1, fromFile + 2 ) ]
+    in
+    validToCoordinates |> List.member to
 
 
 isValid : Move -> Bool
