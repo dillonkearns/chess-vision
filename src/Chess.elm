@@ -20,20 +20,14 @@ init =
 
 
 isValidMove : Coordinate -> Coordinate -> Bool
-isValidMove ( fromFile, fromRank ) to =
+isValidMove ( fromFile, fromRank ) ( toFile, toRank ) =
     let
-        validToCoordinates =
-            [ ( fromFile + 2, fromRank + 1 )
-            , ( fromFile + 2, fromRank - 1 )
-            , ( fromFile - 2, fromRank + 1 )
-            , ( fromFile - 2, fromRank - 1 )
-            , ( fromFile + 1, fromRank + 2 )
-            , ( fromFile + 1, fromRank - 2 )
-            , ( fromFile - 1, fromRank - 2 )
-            , ( fromFile - 1, fromRank + 2 )
-            ]
+        coordinateDelta =
+            ( abs (toFile - fromFile)
+            , abs (toRank - fromRank)
+            )
     in
-    validToCoordinates |> List.member to
+    coordinateDelta == ( 2, 1 ) || coordinateDelta == ( 1, 2 )
 
 
 isValid : Move -> Bool

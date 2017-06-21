@@ -35,11 +35,11 @@ all =
                             ]
             ]
         , describe "isValidMove"
-            [ test "something" <|
+            [ test "move down two & over one" <|
                 \() ->
                     Chess.isValidMove ( 2, 1 ) ( 0, 0 )
                         |> Expect.equal True
-            , test "something else" <|
+            , test "move over two & up one" <|
                 \() ->
                     Chess.isValidMove ( 0, 0 ) ( 1, 2 )
                         |> Expect.equal True
