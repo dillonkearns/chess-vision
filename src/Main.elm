@@ -38,15 +38,15 @@ squareView game piece =
             Chess.lastMoveValid game
 
         squareValue =
-            if (Chess.currentPosition game) == piece then
+            if Chess.currentPosition game == piece then
                 "♞"
             else
                 "◻️"
     in
-        if madeValidMove then
-            span [ onClick (MakeMove piece) ] [ (text squareValue) ]
-        else
-            span [ style [ ( "color", "red" ) ], onClick (MakeMove piece) ] [ (text squareValue) ]
+    if madeValidMove then
+        span [ onClick (MakeMove piece) ] [ text squareValue ]
+    else
+        span [ style [ ( "color", "red" ) ], onClick (MakeMove piece) ] [ text squareValue ]
 
 
 init : ( Model, Cmd Msg )

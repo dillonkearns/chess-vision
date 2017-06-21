@@ -11,12 +11,16 @@ type alias Coordinate =
 
 
 type alias Game =
-    List Move
+    { moves : List Move
+    , target : Coordinate
+    }
 
 
 init : Game
 init =
-    [ ValidMove ( 0, 0 ) ]
+    { moves = [ ValidMove ( 0, 0 ) ]
+    , target = ( 4, 4 )
+    }
 
 
 isValidMove : Coordinate -> Coordinate -> Bool
@@ -40,7 +44,7 @@ isValid move =
             False
 
 
-currentPosition : Game -> Coordinate
+currentPosition : List Move -> Coordinate
 currentPosition game =
     case game of
         (ValidMove coordinate) :: rest ->
@@ -53,7 +57,7 @@ currentPosition game =
             Debug.crash "Impossible for list to have no ValidMove's because init seeds it with one"
 
 
-lastMoveValid : Game -> Bool
+lastMoveValid : List Move -> Bool
 lastMoveValid game =
     case game of
         lastMove :: allOtherMoves ->
@@ -69,8 +73,12 @@ lastMoveValid game =
 
 
 makeMove : Coordinate -> Game -> Game
-makeMove move game =
-    if isValidMove (currentPosition game) move then
-        ValidMove move :: game
-    else
-        InvalidMove move :: game
+makeMove move ({ moves } as game) =
+    let
+        updatedMoves =
+            if isValidMove (currentPosition moves) move then
+                ValidMove move :: moves
+            else
+                InvalidMove move :: moves
+    in
+    { game | moves = updatedMoves }
