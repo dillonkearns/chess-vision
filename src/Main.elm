@@ -1,6 +1,6 @@
 module Main exposing (main)
 
-import Chess
+import Chess exposing (currentKnightPosition)
 import Html exposing (..)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
@@ -31,14 +31,21 @@ rowView game rowPieces =
     div [ style [ ( "font-size", "60px" ), ( "cursor", "hand" ) ] ] (List.map (squareView game) rowPieces)
 
 
-squareView : Chess.Game -> ( Int, Int ) -> Html Msg
+squareView : Chess.Game -> Chess.Coordinate -> Html Msg
 squareView game piece =
     let
         madeValidMove =
-            Chess.lastMoveValid game
+            Chess.lastMoveValid game.moves
+
+        currentKnightPosition =
+            Chess.currentKnightPosition game.moves
 
         squareValue =
-            if Chess.currentPosition game == piece then
+            if game.target == currentKnightPosition then
+                "🏆" ++ toString (Chess.movesSoFar game.moves - 1)
+            else if piece == game.target then
+                "🎯"
+            else if currentKnightPosition == piece then
                 "♞"
             else
                 "◻️"

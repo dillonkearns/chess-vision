@@ -23,6 +23,13 @@ init =
     }
 
 
+movesSoFar : List Move -> Int
+movesSoFar moves =
+    moves
+        |> List.filter isValid
+        |> List.length
+
+
 isValidMove : Coordinate -> Coordinate -> Bool
 isValidMove ( fromFile, fromRank ) ( toFile, toRank ) =
     let
@@ -44,14 +51,14 @@ isValid move =
             False
 
 
-currentPosition : List Move -> Coordinate
-currentPosition game =
-    case game of
+currentKnightPosition : List Move -> Coordinate
+currentKnightPosition moves =
+    case moves of
         (ValidMove coordinate) :: rest ->
             coordinate
 
         (InvalidMove coordinate) :: rest ->
-            currentPosition rest
+            currentKnightPosition rest
 
         _ ->
             Debug.crash "Impossible for list to have no ValidMove's because init seeds it with one"
@@ -76,7 +83,7 @@ makeMove : Coordinate -> Game -> Game
 makeMove move ({ moves } as game) =
     let
         updatedMoves =
-            if isValidMove (currentPosition moves) move then
+            if isValidMove (currentKnightPosition moves) move then
                 ValidMove move :: moves
             else
                 InvalidMove move :: moves
